@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <signal.h> // resume here 
 
 typedef unsigned int bool_t;
 
@@ -11,6 +12,37 @@ typedef unsigned int bool_t;
 #define TRUE 1
 #define FALSE 0
 #define ERROR_PREFIX "There was an error"
+
+
+struct
+menuItem
+{
+  unsigned int id;
+  char* name;
+  void (*fn)(const char*);
+};
+
+// This function name will probably change.
+// The idea here is to create a list of structs that contain 
+// the menu options available to the user. 
+// [{ item0, ..., itemN }] where item is a struct menuItem.
+void
+_printDescription(const char* msg)
+{
+  printf("%s\n", msg);
+}
+
+void
+displayMenu()
+{
+  struct menuItem item = { 
+    .id = 1, 
+    .name = "first item", 
+    .fn = _printDescription
+  };
+  printf("***xsh****\n");
+  item.fn("constraint = less than 44 characters");
+}
 
 bool_t
 checkAllocation(const void* value) 
@@ -47,6 +79,7 @@ main(int argc, char* argv[])
     fprintf(stderr, "%s\n", ERROR_PREFIX);
     return -1;
   }
+  displayMenu();
   while (0x61) 
   {
     printf("#> ");
